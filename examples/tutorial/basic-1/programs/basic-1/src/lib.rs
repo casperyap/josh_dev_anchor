@@ -8,25 +8,25 @@ declare_id!("BjwWGc5BR2EyAJnPmaj2ge3hyQXDxx4iLgHTaxcqBLvs");
 mod basic_1 {
     use super::*;
 
-    pub fn initialize(ctx: Context<InitializeAccounts>) -> Result<()> {
+    pub fn initialize(ctx: Context<InitializeAccountInfo>) -> Result<()> {
         let my_account = &mut ctx.accounts.my_account;
         my_account.data = 0;
         Ok(())
     }
 
-    pub fn set(ctx: Context<UpdateAccounts>, data: u64) -> Result<()> {
+    pub fn set(ctx: Context<UpdateAccountInfo>, data: u64) -> Result<()> {
         let my_account = &mut ctx.accounts.my_account;
         my_account.data = data;
         Ok(())
     }
     
-    pub fn increment(ctx: Context<UpdateAccounts>) -> Result<()> {
+    pub fn increment(ctx: Context<UpdateAccountInfo>) -> Result<()> {
       let my_account = &mut ctx.accounts.my_account;
       my_account.data += 1;
       Ok(())
   }
   
-  pub fn decrement(ctx: Context<UpdateAccounts>) -> Result<()> {
+  pub fn decrement(ctx: Context<UpdateAccountInfo>) -> Result<()> {
     let my_account = &mut ctx.accounts.my_account;
     my_account.data -= 1; //should check that counter is not zero.
     Ok(())
@@ -34,7 +34,7 @@ mod basic_1 {
 }
 
 #[derive(Accounts)]
-pub struct InitializeAccounts<'info> {
+pub struct InitializeAccountInfo<'info> {
     #[account(init, payer = user, space = 8 + 8)]
     pub my_account: Account<'info, MyAccount>,
     #[account(mut)]
@@ -43,7 +43,7 @@ pub struct InitializeAccounts<'info> {
 }
 
 #[derive(Accounts)]
-pub struct UpdateAccounts<'info> {
+pub struct UpdateAccountInfo<'info> {
     #[account(mut)]
     pub my_account: Account<'info, MyAccount>,
 }
